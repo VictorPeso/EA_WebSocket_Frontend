@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService, UserResponse, OrgResponse } from '../../services/auth';
+import { Chat } from '../../services/chat';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +24,7 @@ export class LoginComponent {
 
   constructor(
     private authService: AuthService,
+    private chatService: Chat,
     private router: Router
   ) {}
 
@@ -54,7 +56,9 @@ export class LoginComponent {
               sessionStorage.setItem('chat_user_name', user.name);
               sessionStorage.setItem('chat_org_id', org._id);
               sessionStorage.setItem('chat_org_name', org.name);
-              
+
+              this.chatService.sendMeHeLoggeado(user.name, org.name);
+
               this.isLoading = false;
               this.router.navigate(['/chat']);
             },

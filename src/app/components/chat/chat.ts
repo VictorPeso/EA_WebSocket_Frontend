@@ -5,6 +5,11 @@ import { Chat, Mensaje } from '../../services/chat';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
+type UsuarioConectado = {
+  usuario: string;
+  organizacion: string;
+};
+
 @Component({
   selector: 'app-chat',
   standalone: true,
@@ -13,19 +18,21 @@ import { Router } from '@angular/router';
   styleUrl: './chat.css',
 })
 export class ChatComponent implements OnInit, OnDestroy {
-  public usuarioActivo: string = ''; 
+  public usuarioActivo: string = '';
   public usuarioActivoName: string = '';
   public organizacionActiva: string = '';
   public organizacionActivaName: string = '';
-  
+
   public nuevoMensaje: string = '';
   public mensajes: Mensaje[] = [];
+  public usuariosConectados: UsuarioConectado[] = [];
 
   public typingUser: string | null = null;
 
   private messageSub!: Subscription;
   private typingSub!: Subscription;
   private stopTypingSub!: Subscription;
+  private userListSub!: Subscription;
   private typingTimeout: any;
 
   constructor(
@@ -68,12 +75,18 @@ export class ChatComponent implements OnInit, OnDestroy {
       this.typingUser = null;
       this.cdr.detectChanges();
     });
+
+    this.userListSub = this.chatService.onNuevoUsuarioLoggeado().subscribe((data: UsuarioConectado[]) => {
+      this.usuariosConectados = data;
+      this.cdr.detectChanges();
+    });
   }
 
   ngOnDestroy(): void {
     if (this.messageSub) this.messageSub.unsubscribe();
     if (this.typingSub) this.typingSub.unsubscribe();
     if (this.stopTypingSub) this.stopTypingSub.unsubscribe();
+    if (this.userListSub) this.userListSub.unsubscribe();
     this.chatService.disconnect();
   }
 
@@ -106,6 +119,10 @@ export class ChatComponent implements OnInit, OnDestroy {
     return usuario;
   }
 
+  getUsuariosConectados(): UsuarioConectado[] {
+    return this.usuariosConectados;
+  }
+
   esMensajeMio(mensaje: Mensaje): boolean {
     const id = typeof mensaje.usuario === 'object' ? mensaje.usuario._id : mensaje.usuario;
     return id === this.usuarioActivo;
@@ -120,3 +137,5 @@ export class ChatComponent implements OnInit, OnDestroy {
     }, 100);
   }
 }
+
+export { Chat };

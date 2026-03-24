@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 export interface Mensaje {
   usuario: any;
-  organizacion: string; 
+  organizacion: string;
   contenido: string;
   _id?: string;
   leido?: boolean;
@@ -46,12 +46,25 @@ export class Chat {
   }
 
   sendTyping(usuario: string, usuarioName: string): void {
-  this.socket.emit('typing', { usuario: usuario, usuarioName: usuarioName });
+    this.socket.emit('typing', { usuario: usuario, usuarioName: usuarioName });
   }
 
   stopTyping(usuario: string, usuarioName: string): void {
-  this.socket.emit('stop-typing', { usuario: usuario, usuarioName: usuarioName });
+    this.socket.emit('stop-typing', { usuario: usuario, usuarioName: usuarioName });
   }
+
+  sendMeHeLoggeado(usuario: string, organizacion: string): void {
+    this.socket.emit('nuevo-usuario-conectado', { usuario, organizacion });
+  }
+
+  onNuevoUsuarioLoggeado(): Observable<any> {
+    return new Observable((observer) => {
+      this.socket.on('nueva-lista-usuarios-conectados', (data) => {
+        observer.next(data);
+      });
+    });
+  }
+
   onUserTyping(): Observable<any> {
     return new Observable((observer) => {
       this.socket.on('user-typing', (data) => {

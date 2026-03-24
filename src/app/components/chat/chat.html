@@ -22,8 +22,8 @@
   <div class="chat-messages" id="chat-messages">
     <div class="message-list">
       @for (mensaje of mensajes; track mensaje._id) {
-        <div 
-          class="message-bubble" 
+        <div
+          class="message-bubble"
           [ngClass]="{'message-mine': esMensajeMio(mensaje), 'message-other': !esMensajeMio(mensaje)}"
         >
           <div class="message-sender" *ngIf="!esMensajeMio(mensaje)">
@@ -43,11 +43,11 @@
 
   <footer class="chat-footer">
     <form (ngSubmit)="enviarMensaje()" class="input-form">
-      <input 
-        type="text" 
-        [(ngModel)]="nuevoMensaje" 
-        name="mensajeInput" 
-        placeholder="Escribe su mensaje aquí..." 
+      <input
+        type="text"
+        [(ngModel)]="nuevoMensaje"
+        name="mensajeInput"
+        placeholder="Escribe su mensaje aquí..."
         autocomplete="off"
         class="message-input"
         (input)="onTyping()"
@@ -61,4 +61,20 @@
       </button>
     </form>
   </footer>
+</div>
+
+<div class="usuarios-conectados-wrapper">
+  <h3>Usuarios conectados</h3>
+
+  <ul class="usuarios-conectados-list">
+    @for (usuario of getUsuariosConectados(); track usuario.usuario + '-' + usuario.organizacion) {
+      <li class="usuario-conectado-item">
+        <strong>{{ usuario.usuario }}</strong> - {{ usuario.organizacion }}
+      </li>
+    } @empty {
+      <li class="usuario-conectado-item vacio">
+        No hay usuarios conectados
+      </li>
+    }
+  </ul>
 </div>

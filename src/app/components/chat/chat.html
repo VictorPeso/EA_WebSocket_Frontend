@@ -14,8 +14,13 @@
         }
       </div>
     </div>
-    <div class="user-badge">
-      Usuario: {{ usuarioActivoName }}
+    <div class="header-actions">
+      <div class="user-badge">
+        Usuario: {{ usuarioActivoName }}
+      </div>
+      <button class="logout-button" (click)="cerrarSesion()">
+        Cerrar sesión
+      </button>
     </div>
   </header>
 

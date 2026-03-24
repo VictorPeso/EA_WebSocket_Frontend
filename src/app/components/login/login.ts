@@ -14,8 +14,8 @@ import { Chat } from '../../services/chat';
 })
 export class LoginComponent {
   // Login Form
-  public nombre: string = '';
-  public email: string = '';
+  public nombre: string = 'User X';
+  public email: string = 'uX@example.com';
   public password: string = '123456'; // Default for quick testing
   public nombreOrg: string = 'Mi Organización';
 

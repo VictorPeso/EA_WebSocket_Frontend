@@ -57,6 +57,10 @@ export class Chat {
     this.socket.emit('nuevo-usuario-conectado', { usuario, organizacion });
   }
 
+  logoutUsuario(usuario: string, organizacion: string): void {
+    this.socket.emit('usuario-desconectado', { usuario, organizacion });
+  }
+
   onNuevoUsuarioLoggeado(): Observable<any> {
     return new Observable((observer) => {
       this.socket.on('nueva-lista-usuarios-conectados', (data) => {

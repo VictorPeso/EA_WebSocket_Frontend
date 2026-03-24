@@ -61,6 +61,8 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     this.chatService.joinOrganization(this.organizacionActiva);
 
+    this.chatService.sendMeHeLoggeado(this.usuarioActivoName, this.organizacionActivaName);
+
     this.messageSub = this.chatService.getMessages().subscribe((mensaje: Mensaje) => {
       this.mensajes.push(mensaje);
       this.scrollToBottom();
@@ -121,6 +123,17 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   getUsuariosConectados(): UsuarioConectado[] {
     return this.usuariosConectados;
+  }
+
+  cerrarSesion(): void {
+    this.chatService.logoutUsuario(this.usuarioActivoName, this.organizacionActivaName);
+
+    sessionStorage.removeItem('chat_user_id');
+    sessionStorage.removeItem('chat_user_name');
+    sessionStorage.removeItem('chat_org_id');
+    sessionStorage.removeItem('chat_org_name');
+
+    this.router.navigate(['/login']);
   }
 
   esMensajeMio(mensaje: Mensaje): boolean {

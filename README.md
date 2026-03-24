@@ -21,11 +21,13 @@ El uso de IA ha sido evitado para cualquier otra situación.
 
 Què passaria si un mateix usuari obre el xat en dues pestanyes diferents? Com podríem evitar que el seu nom surti duplicat?
 
-> resposta
+> Com ja s'explica el video, el que es fa es posar un filtre al service que s'encarrega, avans de fer el push a l'array d'usuaris, comprobar si existeix a la llista, y en cas afirmatiu, és a dir, que
+> existeixi, es retorna un error per informar que aquesta acció no es pot dur a terme. Aquesta funcionalitat està implementada y es pot observar a l'arxiu `service/Mensaje.ts`
 
 Per què és millor que el servidor enviï la llista sencera cada vegada en lloc d'enviar només "usuari X s'ha connectat"?
 
-> resposta
+> Perque en cas que hi hagin desconnexions o problemes, el servidor sempre sabra y enviarà la cuantitat exacte d'usuaris dels que te constancia. Si hagués algun problema o error en algun moment no es
+> podria saber.
 
 ---
 
